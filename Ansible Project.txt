@@ -1,0 +1,38 @@
+Ansible
+ansible.master = 192.168.137.83
+ansible.app = 192.168.137.114 [webservers]
+db.ansible = 192.168.137.24 [dbservers]
+
+
+
+
+You can see ansible modules through 
+	ansible-doc 
+
+If you want to execute commands use
+ansible all -m shell -a "uname -a;df -h" -v
+
+If you want to install a package type
+ansible all -m yum -a 'name=httpd state=present' -vvv
+
+If you want to start a service type
+ansible all -m service -a 'name=httpd state=started' -vvv
+
+If you want to copy a file type
+ansible all -m copy -a "src=/tmp/testinfile dest=/tmp/testinfile" -vv
+
+If you want to check whether a certain playbook will work you can type 
+
+ansible-playbook apache.yml --check
+	- it will show you what will change
+
+To check the password hashing algorithm type
+
+ansible all -m shell -a "authconfig --test | grep 'password hashing algorithm'" -v
+
+If you want to get a password in python thru SHA-512
+python -c 'import crypt,getpass; print crypt.crypt(getpass.getpass())'
+
+If you want to get a password thru openssl type
+openssl passwd -1 -salt $(openssl rand -base64 6) root
+
